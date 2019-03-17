@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Brincando com a DOM com o VUE</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <p>{{ titulo }}</p>
+    <p>{{ saudacao() }}</p>
+    <a v-bind:href="link">Teste De link</a>
+    <p>{{ sad() }}</p>
+  </div>
+</body>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      titulo: 'testee',
+      link: 'https://google.com.br'
+    },
+    methods: {
+      saudacao: function() {
+        return 'Victor Lindo Tesão, Bonito e gostosão'
+      },
+      sad() {
+        return 'será que aprendo de vez a usar isso?'
+      }
+    }
+  })
+</script>
+</html>
