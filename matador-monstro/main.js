@@ -2,8 +2,9 @@ new Vue({
   el: '#app',
   data: {
     running: false,
-    playerLife: 30,
-    monsterLife: 10,
+    playerLife: 100,
+    monsterLife: 100,
+    logs: []
   },
   computed: {
     hasResult() {
@@ -15,18 +16,40 @@ new Vue({
       this.playerLife = 100
       this.monsterLife = 100
       this.running = true
+      this.logs = []
     },
-    attack() {
-      this.playerLife = this.playerLife - Math.random()
-      this.monsterLife = this.monsterLife - Math.random()
+    attack(special) {
+      this.hurt('monsterLife', 5, 10, special, 'Jogador', 'Monstro', 'player')
+      if (this.monsterLife > 0){
+        this.hurt('playerLife', 7, 12, false, 'Monstro', 'Player', 'monster')
+      }
+    },
+    hurt(prop, min, max, special, source, target, cls ) {
+      const plus = special ? 5 : 0
+      const hurt = this.getRandom(min + plus, max + plus)
+      this[prop] = Math.max(this[prop] - hurt, 0)
+      this.registerLog(`${source} atingiu ${target} com ${hurt}.`, cls)
+    },
+    healHurt(){
+      this.heal(10,15)
+      this.hurt('playerLife', 7, 12, false, 'Monstro', 'Player', 'monster')
+    },
+    heal(min, max){
+      const heal = this.getRandom(min, max)
+      this.playerLife = Math.min(this.playerLife + heal, 100)
+      this.registerLog(`O Jogador receber ${heal} de cura!`)
     },
     getRandom(min, max) {
       const value = Math.random() * (max - min) + min
+      return Math.round(value)
+    },
+    registerLog(text, cls){
+      this.logs.unshift({text, cls})
     }
   },
   watch: {
-    checkGame() {
-      if (this.playerLife == 0 || this.monsterLife == 0) {
+    hasResult(value){
+      if (value) {
         this.running = false
       }
     }

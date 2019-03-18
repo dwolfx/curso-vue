@@ -44,14 +44,21 @@
     </div>
     <div class="panel buttons">
       <template v-if="running">
-        <button class="btn attack">Attack</button>
-        <button class="btn special-attack">Special Attack</button>
-        <button class="btn heal">Heal</button>
+        <button class="btn attack" @click="attack(false)">Attack</button>
+        <button class="btn special-attack" @click="attack(true)">Special Attack</button>
+        <button class="btn heal" @click="healHurt">Heal</button>
         <button class="btn surrender" @click="running = false">Surrender</button>
       </template>
       <button class="btn new-game" v-else @click="restart">Start Game</button>
     </div>
-    <div class="panel logs"></div>
+    <div class="panel logs" v-if="logs.length">
+      <ul>
+        <li v-for="log in logs"
+            class="logs" :class="log.cls">
+            {{log.text}}
+        </li>
+      </ul>
+    </div>
   </div>
   <script src="main.js"></script>
 </body>
